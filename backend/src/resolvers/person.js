@@ -1,4 +1,7 @@
 module.exports = {
+  async test() {
+    return { id: "1", name: "test" }
+  },
   async person(_, { name }, context, info) {
     const session = context.driver.session()
     try {

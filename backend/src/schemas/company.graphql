@@ -1,0 +1,4 @@
+type Company{
+    companyId: ID!
+    name: String!
+}
