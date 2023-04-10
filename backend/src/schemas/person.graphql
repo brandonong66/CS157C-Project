@@ -1,0 +1,14 @@
+type Person {
+  personId: ID!
+  name: String!
+  age: Int
+}
+
+type Query {
+  getPerson(personId: ID!): Person
+}
+
+type Mutation {
+  createPerson(personId: ID!, name: String!, age: Int): Person
+}
+
