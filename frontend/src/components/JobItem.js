@@ -5,6 +5,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 export default function JobItem({job}) {
+    const [isClicked, setIsClicked] = React.useState(false);
+    const [buttonText, setButtonText] = React.useState('Apply');
+
+    const handleApply = () => {
+        if (!isClicked) setIsClicked(true);
+        setButtonText('Applied');
+        console.log(job.id)
+    };
+
     return (
         <ListItem>
             <ListItemText
@@ -29,8 +38,10 @@ export default function JobItem({job}) {
             />
             <Button
                 variant='outlined'
+                disabled={isClicked}
+                onClick={handleApply}
             >
-                Apply
+                {buttonText}
             </Button>
         </ListItem>
     );
