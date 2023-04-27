@@ -9,6 +9,7 @@ import {
     AddCircle,
     Work,
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     const [value, setValue] = React.useState(0);
@@ -25,9 +26,9 @@ export default function Navbar() {
                         setValue(newValue);
                     }}
                 >
-                    <BottomNavigationAction label="Progress" icon={<AccessTimeOutlined />}/>
-                    <BottomNavigationAction label="Profile" icon={<AddCircle />}/>
-                    <BottomNavigationAction label="Jobs" icon={<Work />}/>
+                    <BottomNavigationAction label="Progress" icon={<AccessTimeOutlined />} component={Link} to='/progress'/>
+                    <BottomNavigationAction label="Profile" icon={<AddCircle />} component={Link} to='/profile'/>
+                    <BottomNavigationAction label="Jobs" icon={<Work />} component={Link} to='/jobs'/>
                 </BottomNavigation>
             </Paper>
         </Box>
