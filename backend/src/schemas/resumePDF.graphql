@@ -1,0 +1,5 @@
+type Query {
+  extractTextFromPDF(file: Upload!): String!
+}
+
+scalar Upload
