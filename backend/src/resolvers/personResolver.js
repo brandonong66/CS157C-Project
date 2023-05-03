@@ -13,19 +13,47 @@ const personResolver = {
   Query: {
     getPerson: async (_, { personId }, { driver }) => {
       const session = driver.session()
-      const result = await session.run("MATCH (p:Person {personId: $personId}) RETURN p", {
-        personId,
-      })
+      const result = await session.run(
+        "MATCH (p:Person {personId: $personId}) RETURN p",
+        {
+          personId,
+        }
+      )
       session.close()
+      if (result.records.length === 0) {
+        return null
+      }
       return result.records[0].get("p").properties
     },
   },
   Mutation: {
-    createPerson: async (_, { personId, name, age }, { driver }) => {
+    createPerson: async (
+      _,
+      {
+        name,
+        age,
+        password,
+        educationalBackground,
+        universityName,
+        fieldOfStudy,
+        desiredPosition,
+        visaStatus,
+      },
+      { driver }
+    ) => {
       const session = driver.session()
       const result = await session.run(
-        "CREATE (b:Person { personId: $personId, name: $name, age: $age}) RETURN b",
-        { personId, name, age }
+        "CREATE (b:Person { personId: randomUUID(), name: $name, age: $age, password: $password, educationalBackground: $educationalBackground, universityName: $universityName, fieldOfStudy: $fieldOfStudy, desiredPosition: $desiredPosition, visaStatus: $visaStatus}) RETURN b",
+        {
+          name,
+          age,
+          password,
+          educationalBackground,
+          universityName,
+          fieldOfStudy,
+          desiredPosition,
+          visaStatus,
+        }
       )
       session.close()
       return result.records[0].get("b").properties
