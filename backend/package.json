@@ -14,8 +14,12 @@
     "@neo4j/graphql": "^3.17.2",
     "@neo4j/graphql-ogm": "^3.17.2",
     "apollo-server": "^3.12.0",
+    "apollo-server-express": "^3.12.0",
     "graphql": "^16.6.0",
-    "neo4j-driver": "^5.7.0"
+    "graphql-upload": "^13.0.0",
+    "neo4j-driver": "^5.7.0",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^3.5.141"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

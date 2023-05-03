@@ -1,0 +1,9 @@
+/*Style your Landing page here by referring to class names*/
+
+ul {
+    padding-inline-start: 5px;
+}
+
+li {
+    list-style-type: none;
+}

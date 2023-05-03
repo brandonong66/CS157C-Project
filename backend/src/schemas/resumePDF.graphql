@@ -1,0 +1,5 @@
+type Mutation {
+  extractTextFromPDF(file: Upload!): String!
+}
+
+scalar Upload

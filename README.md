@@ -16,3 +16,9 @@ Backend notes:
   - driver: connection to database
     - passed to each resolver through a context object
 * apollo uses graphql querying language to get data from neo4j database
+
+
+## Deployment notes
+ - CORS:
+   - Apollo Server: add the URI of client to the cors origin list in index.js
+   - React: add the URI of server to the proxy list in package.json
