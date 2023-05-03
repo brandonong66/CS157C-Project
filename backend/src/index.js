@@ -2,7 +2,7 @@ require("dotenv").config()
 const { Neo4jGraphQL } = require("@neo4j/graphql")
 const { ApolloServer, gql } = require("apollo-server")
 const neo4j = require("neo4j-driver")
-const personResolver = require("./resolvers/personResolver")
+const userResolver = require("./resolvers/userResolver")
 const { readFileSync } = require("fs")
 const { join } = require("path")
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge")
@@ -25,24 +25,27 @@ const driver = neo4j.driver(
   neo4j.auth.basic(process.env.USERNAME, process.env.PASSWORD2)
 )
 
-const personTypeDefs = gql(
-  readFileSync(join(__dirname, "schemas", "person.graphql"), "utf8")
+const userTypeDefs = gql(
+  readFileSync(join(__dirname, "schemas", "user.graphql"), "utf8")
 )
 const resumePDFTypeDefs = gql(
   readFileSync(join(__dirname, "schemas", "resumePDF.graphql"), "utf8")
 )
 
-
-const typeDefs = mergeTypeDefs([personTypeDefs, resumePDFTypeDefs])
+const typeDefs = mergeTypeDefs([userTypeDefs, resumePDFTypeDefs])
 
 const resolvers = mergeResolvers([
-  personResolver,
+  userResolver,
   resumePDFResolver,
   { Upload: GraphQLUpload },
 ])
 const server = new ApolloServer({
   cors: {
-    origin: "https://studio.apollographql.com",
+    origin: [
+      "https://studio.apollographql.com",
+      "http://localhost:3004",
+      "http://localhost:4000/",
+    ],
     credentials: true,
     referrerPolicy: "no-referrer",
   },

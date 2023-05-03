@@ -1,0 +1,37 @@
+type User {
+  userId: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  age: Int
+  password: String!
+  educationalBackground: String
+  universityName: String
+  fieldOfStudy: String
+  desiredPosition: String
+  visaStatus: String
+}
+
+type Query {
+  getUser(userId: ID!): User
+}
+
+type Mutation {
+  createUser(
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+  ): User
+}
+
+type Mutation {
+  createProfile(
+    userId: ID!
+    educationalBackground: String!
+    universityName: String!
+    fieldOfStudy: String!
+    desiredPosition: String!
+    visaStatus: String!
+  ): User
+}
