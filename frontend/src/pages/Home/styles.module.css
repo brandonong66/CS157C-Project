@@ -1,0 +1,17 @@
+/*Style your Home page here by referring to class names*/
+.marginLeft {
+    margin-left: 5rem;
+}
+.marginRight {
+    margin-right: 1rem !important;
+}
+.marginTop {
+    margin-top: 2rem !important;
+}
+
+.flexEnd{
+    position: absolute;
+    right: 0;
+    top: 1rem;
+
+}
