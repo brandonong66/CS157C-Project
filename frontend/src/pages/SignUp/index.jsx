@@ -21,7 +21,7 @@ import { useState, useEffect } from "react"
 
 import { useMutation, gql } from "@apollo/client"
 
-// define mutation
+// define user signup mutation
 const CREATE_USER = gql`
   mutation CreateUser(
     $firstName: String!
@@ -78,18 +78,18 @@ export default function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const formData = new FormData(event.currentTarget)
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      email: formData.get("email"),
+      password: formData.get("password"),
     })
 
     createUser({
       variables: {
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        email: formData.get("email"),
+        password: formData.get("password"),
       },
     })
 

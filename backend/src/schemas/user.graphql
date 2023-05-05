@@ -12,6 +12,11 @@ type User {
   visaStatus: String
 }
 
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
 type Query {
   getUser(userId: ID!): User
 }
@@ -23,6 +28,10 @@ type Mutation {
     email: String!
     password: String!
   ): User
+}
+
+type Mutation {
+  login(email: String!, password: String!): LoginResponse
 }
 
 type Mutation {
