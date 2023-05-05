@@ -43,7 +43,7 @@ const server = new ApolloServer({
   cors: {
     origin: [
       "https://studio.apollographql.com",
-      "http://localhost:3004",
+      "http://localhost:3002",
       "http://localhost:4000/",
     ],
     credentials: true,
