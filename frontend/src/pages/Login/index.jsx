@@ -68,6 +68,7 @@ export default function SignIn() {
         formSubmitted: true,
         loggedIn: true,
       }))
+      window.location.reload();
     }
     if (error) {
       console.log("Error: ", error)

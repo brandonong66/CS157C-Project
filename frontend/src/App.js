@@ -6,12 +6,12 @@ import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
-
-
+import Navbar2 from "./components/Navbar2"
 
 function App() {
   return (
     <div className="App">
+      <Navbar2 />
       <Router>
         <Routes>
           <Route exact path="/" element={<Landing />} />
