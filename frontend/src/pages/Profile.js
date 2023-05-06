@@ -94,6 +94,8 @@ export default function Profile() {
         desiredPosition: formData.get("position"),
         visaStatus: formData.get("visa"),
       },
+    }).then(() => {
+      window.location.reload()
     })
     console.log(mutationData)
   }
@@ -182,7 +184,7 @@ export default function Profile() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Create
+              Update
             </Button>
           </Box>
           <UploadResume />
