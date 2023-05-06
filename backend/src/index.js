@@ -51,7 +51,9 @@ const server = new ApolloServer({
   },
   typeDefs,
   resolvers,
-  context: { driver },
+  context: ({ req }) => {
+    return { driver, req }
+  },
 })
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`)

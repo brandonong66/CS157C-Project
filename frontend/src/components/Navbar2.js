@@ -22,7 +22,9 @@ function Navbar2() {
             SearchEasy
           </Typography>
         </Link>
-
+        <Link href="/profile" underline="none" color="black">
+          Profile
+        </Link>
         {loggedIn ? (
           <Button
             variant="outlined"
@@ -31,6 +33,7 @@ function Navbar2() {
               alert("Logged out")
               sessionStorage.removeItem("token")
               setLoggedIn(false)
+              window.location.assign("/")
             }}
           >
             Logout
