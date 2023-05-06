@@ -65,21 +65,37 @@ export default function Profile() {
   ] = useMutation(EDIT_PROFILE)
 
   const [userId, setUserId] = useState(null)
+  const [userProfile, setUserProfile] = useState(null)
 
   useEffect(() => {
     getAuthenticatedUser()
   }, [])
+
   useEffect(() => {
     if (queryData?.getAuthenticatedUser) {
       setUserId(queryData.getAuthenticatedUser.userId)
+      setUserProfile({
+        educationalBackground:
+          queryData.getAuthenticatedUser.educationalBackground,
+        universityName: queryData.getAuthenticatedUser.universityName,
+        fieldOfStudy: queryData.getAuthenticatedUser.fieldOfStudy,
+        desiredPosition: queryData.getAuthenticatedUser.desiredPosition,
+        visaStatus: queryData.getAuthenticatedUser.visaStatus,
+      })
     }
   }, [queryData])
 
+  const handleChange = (event) => {
+    setUserProfile({
+      ...userProfile,
+      [event.target.name]: event.target.value,
+    })
+  }
   const handleSubmit = (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     console.log({
-      educationalbg: formData.get("educationalbg"),
+      educational: formData.get("educationalbg"),
       university: formData.get("university"),
       study: formData.get("study"),
       position: formData.get("position"),
@@ -88,11 +104,11 @@ export default function Profile() {
     editProfile({
       variables: {
         userId: userId,
-        educationalBackground: formData.get("educationalbg"),
-        universityName: formData.get("university"),
-        fieldOfStudy: formData.get("study"),
-        desiredPosition: formData.get("position"),
-        visaStatus: formData.get("visa"),
+        educationalBackground: formData.get("educationalBackground"),
+        universityName: formData.get("universityName"),
+        fieldOfStudy: formData.get("fieldOfStudy"),
+        desiredPosition: formData.get("desiredPosition"),
+        visaStatus: formData.get("visaStatus"),
       },
     }).then(() => {
       window.location.reload()
@@ -126,57 +142,62 @@ export default function Profile() {
         <Typography variant="h6">Edit Profile:</Typography>
 
         <Container component="main" maxWidth="xs">
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="educationalbg"
               label="Educational Background"
-              name="educationalbg"
+              name="educationalBackground"
               autoComplete="educationalbg"
               autoFocus
+              value={userProfile?.educationalBackground || ""}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="university"
+              name="universityName"
               label="University Name"
               id="university"
               autoComplete="university"
+              value={userProfile?.universityName || ""}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="study"
+              name="fieldOfStudy"
               label="Field of Study"
               id="study"
               autoComplete="study"
+              value={userProfile?.fieldOfStudy || ""}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="position"
+              name="desiredPosition"
               label="Desired Position"
               id="position"
               autoComplete="positiion"
+              value={userProfile?.desiredPosition || ""}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="visa"
+              name="visaStatus"
               label="Visa Status"
               id="visa"
               autoComplete="visa"
+              value={userProfile?.visaStatus || ""}
+              onChange={handleChange}
             />
             <Button
               type="submit"
