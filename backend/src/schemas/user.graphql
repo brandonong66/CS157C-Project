@@ -19,6 +19,8 @@ type LoginResponse {
 
 type Query {
   getUser(userId: ID!): User
+
+  getAuthenticatedUser: User
 }
 
 type Mutation {
@@ -28,14 +30,10 @@ type Mutation {
     email: String!
     password: String!
   ): User
-}
 
-type Mutation {
   login(email: String!, password: String!): LoginResponse
-}
 
-type Mutation {
-  createProfile(
+  editProfile(
     userId: ID!
     educationalBackground: String!
     universityName: String!

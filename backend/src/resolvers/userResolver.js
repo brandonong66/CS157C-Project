@@ -27,23 +27,30 @@ const userResolver = {
       }
       return result.records[0].get("p").properties
     },
+    getAuthenticatedUser: async (_, args, context) => {
+      const session = context.driver.session()
+      const authHeader = context.req.headers.authorization
+      if (!authHeader) throw new Error("No token provided")
+
+      const token = authHeader.split(" ")[1]
+      try {
+        const decodedToken = jwt.verify(token, process.env.JSONWEBTOKEN_SECRET)
+        const userId = decodedToken.userId
+        const result = await session.run(
+          "MATCH (p:User {userId: $userId}) RETURN p",
+          { userId }
+        )
+        return result.records[0].get("p").properties
+      } catch (err) {
+        throw new Error("Invalid Token")
+      }
+    },
   },
 
   Mutation: {
     createUser: async (
       _,
-      {
-        firstName,
-        lastName,
-        email,
-        age,
-        password,
-        educationalBackground,
-        universityName,
-        fieldOfStudy,
-        desiredPosition,
-        visaStatus,
-      },
+      { firstName, lastName, email, password },
       { driver }
     ) => {
       const session = driver.session()
@@ -65,13 +72,7 @@ const userResolver = {
           firstName,
           lastName,
           email,
-          age,
           password,
-          educationalBackground,
-          universityName,
-          fieldOfStudy,
-          desiredPosition,
-          visaStatus,
         }
       )
       session.close()
@@ -92,7 +93,7 @@ const userResolver = {
       }
       const token = jwt.sign(
         {
-          id: result.records[0].get("u").properties.id,
+          userId: result.records[0].get("u").properties.userId,
           email: result.records[0].get("u").properties.email,
         },
         process.env.JSONWEBTOKEN_SECRET,
@@ -105,37 +106,34 @@ const userResolver = {
         user: result.records[0].get("u").properties,
       }
     },
+    editProfile: async (
+      _,
+      {
+        userId,
+        educationalBackground,
+        universityName,
+        fieldOfStudy,
+        desiredPosition,
+        visaStatus,
+      },
+      { driver }
+    ) => {
+      const session = driver.session()
+      const result = await session.run(
+        "MATCH (u:User { userId: $userId}) SET u.educationalBackground = $educationalBackground, u.universityName = $universityName, u.fieldOfStudy = $fieldOfStudy, u.desiredPosition = $desiredPosition, u.visaStatus = $visaStatus RETURN u",
+        {
+          userId,
+          educationalBackground,
+          universityName,
+          fieldOfStudy,
+          desiredPosition,
+          visaStatus,
+        }
+      )
+      session.close()
+      return result.records[0].get("u").properties
+    },
   },
-
-  // Mutation: {
-  //   createProfile: async (
-  //     _,
-  //     {
-  //       userId,
-  //       educationalBackground,
-  //       universityName,
-  //       fieldOfStudy,
-  //       desiredPosition,
-  //       visaStatus,
-  //     },
-  //     { driver }
-  //   ) => {
-  //     const session = driver.session()
-  //     const result = await session.run(
-  //       "CREATE (u:User { userId: $userId, educationalBackground: $educationalBackground, universityName: $universityName, fieldOfStudy: $fieldOfStudy, desiredPosition: $desiredPosition, visaStatus: $visaStatus}) RETURN b",
-  //       {
-  //         userId,
-  //         educationalBackground,
-  //         universityName,
-  //         fieldOfStudy,
-  //         desiredPosition,
-  //         visaStatus,
-  //       }
-  //     )
-  //     session.close()
-  //     return result.records[0].get("u").properties
-  //   },
-  // },
 }
 
 module.exports = userResolver

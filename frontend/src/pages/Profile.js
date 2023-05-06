@@ -1,24 +1,101 @@
 import * as React from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import { useState, useEffect } from "react"
+import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import Navbar from "../components/Navbar"
 import CurrentProfile from "../components/CurrentProfile"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import Container from "@mui/material/Container"
 import UploadResume from "../components/UploadResume"
 
+import { useQuery, useMutation, gql } from "@apollo/client"
+
+const GET_AUTHENTICATEDUSER = gql`
+  query GetAuthenticatedUser {
+    getAuthenticatedUser {
+      userId
+      firstName
+      lastName
+      email
+      educationalBackground
+      universityName
+      fieldOfStudy
+      desiredPosition
+      visaStatus
+    }
+  }
+`
+const EDIT_PROFILE = gql`
+  mutation EditProfile(
+    $userId: ID!
+    $educationalBackground: String!
+    $universityName: String!
+    $fieldOfStudy: String!
+    $desiredPosition: String!
+    $visaStatus: String!
+  ) {
+    editProfile(
+      userId: $userId
+      educationalBackground: $educationalBackground
+      universityName: $universityName
+      fieldOfStudy: $fieldOfStudy
+      desiredPosition: $desiredPosition
+      visaStatus: $visaStatus
+    ) {
+      userId
+      firstName
+      lastName
+      email
+      educationalBackground
+      universityName
+      fieldOfStudy
+      desiredPosition
+      visaStatus
+    }
+  }
+`
+
 export default function Profile() {
+  const {
+    data: queryData,
+    loading: queryLoading,
+    error: queryError,
+    refetch: getAuthenticatedUser,
+  } = useQuery(GET_AUTHENTICATEDUSER)
+  const [
+    editProfile,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(EDIT_PROFILE)
+
+  const [userId, setUserId] = useState(null)
+
+  useEffect(() => {
+    getAuthenticatedUser()
+  }, [])
+  useEffect(() => {
+    if (queryData?.getAuthenticatedUser) {
+      setUserId(queryData.getAuthenticatedUser.userId)
+    }
+  }, [queryData])
+
   const handleSubmit = (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const formData = new FormData(event.currentTarget)
     console.log({
-      educationalbg: data.get("educationalbg"),
-      university: data.get("university"),
-      study: data.get("study"),
-      position: data.get("position"),
-      visa: data.get("visa"),
+      educationalbg: formData.get("educationalbg"),
+      university: formData.get("university"),
+      study: formData.get("study"),
+      position: formData.get("position"),
+      visa: formData.get("visa"),
     })
+    editProfile({
+      variables: {
+        userId: userId,
+        educationalBackground: formData.get("educationalbg"),
+        universityName: formData.get("university"),
+        fieldOfStudy: formData.get("study"),
+        desiredPosition: formData.get("position"),
+        visaStatus: formData.get("visa"),
+      },
+    })
+    console.log(mutationData)
   }
 
   return (
@@ -34,7 +111,7 @@ export default function Profile() {
       }}
     >
       <Typography variant="h4">Profile</Typography>
-      <CurrentProfile />
+      <CurrentProfile user={queryData?.getAuthenticatedUser} />
       <Box
         component="div"
         sx={{
@@ -44,7 +121,7 @@ export default function Profile() {
           marginTop: "10px",
         }}
       >
-        <Typography variant="h6">Create New Profile:</Typography>
+        <Typography variant="h6">Edit Profile:</Typography>
 
         <Container component="main" maxWidth="xs">
           <Box

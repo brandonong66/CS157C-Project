@@ -93,24 +93,7 @@ function PricingContent() {
         <React.Fragment>
             <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
             <CssBaseline />
-            <AppBar
-                position="static"
-                color="default"
-                elevation={0}
-                sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-            >
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="h6" color="inherit">
-                        SearchEasy
-                    </Typography>
-                    <nav>
-
-                    </nav>
-                    <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }} onClick={login}>
-                        Login
-                    </Button>
-                </Toolbar>
-            </AppBar>
+            
             {/* Hero unit */}
             <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
                 <Typography
