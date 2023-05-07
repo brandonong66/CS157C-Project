@@ -7,6 +7,7 @@ import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
 import Navbar2 from "./components/Navbar2"
+import Jobs from "./pages/Jobs"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/jobs" element={<Jobs />} />
         </Routes>
       </Router>
     </div>
