@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import Navbar from "../components/Navbar"
 import CurrentProfile from "../components/CurrentProfile"
-import UploadResume from "../components/UploadResume"
 
 import { useQuery, useMutation, gql } from "@apollo/client"
 
@@ -19,6 +18,7 @@ const GET_AUTHENTICATEDUSER = gql`
       fieldOfStudy
       desiredPosition
       visaStatus
+      resume
     }
   }
 `
@@ -30,6 +30,7 @@ const EDIT_PROFILE = gql`
     $fieldOfStudy: String!
     $desiredPosition: String!
     $visaStatus: String!
+    $resume: String!
   ) {
     editProfile(
       userId: $userId
@@ -38,6 +39,7 @@ const EDIT_PROFILE = gql`
       fieldOfStudy: $fieldOfStudy
       desiredPosition: $desiredPosition
       visaStatus: $visaStatus
+      resume: $resume
     ) {
       userId
       firstName
@@ -48,6 +50,7 @@ const EDIT_PROFILE = gql`
       fieldOfStudy
       desiredPosition
       visaStatus
+      resume
     }
   }
 `
@@ -81,6 +84,7 @@ export default function Profile() {
         fieldOfStudy: queryData.getAuthenticatedUser.fieldOfStudy,
         desiredPosition: queryData.getAuthenticatedUser.desiredPosition,
         visaStatus: queryData.getAuthenticatedUser.visaStatus,
+        resume: queryData.getAuthenticatedUser.resume,
       })
     }
   }, [queryData])
@@ -100,6 +104,7 @@ export default function Profile() {
       study: formData.get("study"),
       position: formData.get("position"),
       visa: formData.get("visa"),
+      resume: formData.get("resume"),
     })
     editProfile({
       variables: {
@@ -109,6 +114,7 @@ export default function Profile() {
         fieldOfStudy: formData.get("fieldOfStudy"),
         desiredPosition: formData.get("desiredPosition"),
         visaStatus: formData.get("visaStatus"),
+        resume: formData.get("resume"),
       },
     }).then(() => {
       window.location.reload()
@@ -199,6 +205,17 @@ export default function Profile() {
               value={userProfile?.visaStatus || ""}
               onChange={handleChange}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="resume"
+              label="resume"
+              id="resume"
+              autoComplete="resume"
+              value={userProfile?.resume || ""}
+              onChange={handleChange}
+            />
             <Button
               type="submit"
               fullWidth
@@ -208,7 +225,6 @@ export default function Profile() {
               Update
             </Button>
           </Box>
-          <UploadResume />
         </Container>
         <Navbar />
       </Box>

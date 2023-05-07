@@ -1,3 +1,5 @@
+scalar JSONObject
+
 type User {
   userId: ID!
   firstName: String!
@@ -10,6 +12,8 @@ type User {
   fieldOfStudy: String
   desiredPosition: String
   visaStatus: String
+  resume: String
+  roleScores: JSONObject
 }
 
 type LoginResponse {
@@ -40,5 +44,8 @@ type Mutation {
     fieldOfStudy: String!
     desiredPosition: String!
     visaStatus: String!
+    resume: String
   ): User
 }
+
+
