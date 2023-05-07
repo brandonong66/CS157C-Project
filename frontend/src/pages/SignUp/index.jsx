@@ -8,12 +8,17 @@ import {
   Checkbox,
   Container,
   CssBaseline,
+  FormControl,
   FormControlLabel,
   Grid,
+  InputLabel,
   Link,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material"
+import { SelectChangeEvent } from "@mui/material/Select"
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -28,17 +33,20 @@ const CREATE_USER = gql`
     $lastName: String!
     $email: String!
     $password: String!
+    $accountType: String!
   ) {
     createUser(
       firstName: $firstName
       lastName: $lastName
       email: $email
       password: $password
+      accountType: $accountType
     ) {
       firstName
       lastName
       password
       email
+      accountType
     }
   }
 `
@@ -68,6 +76,8 @@ export default function SignUp() {
   // mutations return the data that was created. This data can be accessed in "data" which was declared in the useMutation hook
   const [userCreated, setUserCreated] = useState(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [accountType, setAccountType] = useState("")
+
   useEffect(() => {
     if (data?.createUser) {
       setUserCreated(true)
@@ -76,12 +86,16 @@ export default function SignUp() {
     }
   }, [data])
 
+  const handleAccountTypeChange = (event) => {
+    setAccountType(event.target.value)
+  }
   const handleSubmit = (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     console.log({
       email: formData.get("email"),
       password: formData.get("password"),
+      accountType: accountType,
     })
 
     createUser({
@@ -90,6 +104,7 @@ export default function SignUp() {
         lastName: formData.get("lastName"),
         email: formData.get("email"),
         password: formData.get("password"),
+        accountType: accountType,
       },
     })
 
@@ -163,6 +178,23 @@ export default function SignUp() {
                   autoComplete="email"
                   type="email"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="typeLabel">Account Type</InputLabel>
+                  <Select
+                    id="accountType"
+                    name="accountType"
+                    label="Account Type"
+                    labelId="typeLabel"
+                    fullWidth
+                    value={accountType}
+                    onChange={handleAccountTypeChange}
+                  >
+                    <MenuItem value="applicant">Applicant</MenuItem>
+                    <MenuItem value="employer">Employer</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <TextField

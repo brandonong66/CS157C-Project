@@ -25,6 +25,9 @@ function Navbar2() {
         <Link href="/profile" underline="none" color="black">
           Profile
         </Link>
+        <Link href="/jobs" underline="none" color="black">
+          Jobs
+        </Link>
         {loggedIn ? (
           <Button
             variant="outlined"

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import Navbar from "../components/Navbar"
 import CurrentProfile from "../components/CurrentProfile"
+import AuthWrapper from "../components/AuthWrapper"
 
 import { useQuery, useMutation, gql } from "@apollo/client"
 
@@ -55,7 +56,7 @@ const EDIT_PROFILE = gql`
   }
 `
 
-export default function Profile() {
+function Profile() {
   const {
     data: queryData,
     loading: queryLoading,
@@ -231,3 +232,5 @@ export default function Profile() {
     </Box>
   )
 }
+
+export default AuthWrapper(Profile)

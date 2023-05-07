@@ -5,6 +5,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
+  accountType: String!
   age: Int
   password: String!
   educationalBackground: String
@@ -33,6 +34,7 @@ type Mutation {
     lastName: String!
     email: String!
     password: String!
+    accountType: String!
   ): User
 
   login(email: String!, password: String!): LoginResponse

@@ -54,7 +54,7 @@ const userResolver = {
   Mutation: {
     createUser: async (
       _,
-      { firstName, lastName, email, password },
+      { firstName, lastName, email, password, accountType },
       { driver }
     ) => {
       const session = driver.session()
@@ -71,12 +71,13 @@ const userResolver = {
       }
 
       const result = await session.run(
-        "CREATE (u:User { userId: randomUUID(), firstName: $firstName, lastName: $lastName, email: $email, password: $password}) RETURN u",
+        "CREATE (u:User { userId: randomUUID(), firstName: $firstName, lastName: $lastName, email: $email, password: $password, accountType: $accountType}) RETURN u",
         {
           firstName,
           lastName,
           email,
           password,
+          accountType,
         }
       )
       session.close()
@@ -99,6 +100,7 @@ const userResolver = {
         {
           userId: result.records[0].get("u").properties.userId,
           email: result.records[0].get("u").properties.email,
+          accountType: result.records[0].get("u").properties.accountType,
         },
         process.env.JSONWEBTOKEN_SECRET,
         {
