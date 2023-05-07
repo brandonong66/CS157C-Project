@@ -8,11 +8,7 @@ const { join } = require("path")
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge")
 
 const { GraphQLUpload } = require("graphql-upload")
-const resumePDFResolver = require("./resolvers/resumePDFResolver")
-const resumePDFTypes = readFileSync(
-  join(__dirname, "schemas", "resumePDF.graphql"),
-  "utf8"
-)
+
 
 // set up neo4j driver
 // const driver = neo4j.driver(
@@ -36,7 +32,6 @@ const typeDefs = mergeTypeDefs([userTypeDefs, resumePDFTypeDefs])
 
 const resolvers = mergeResolvers([
   userResolver,
-  resumePDFResolver,
   { Upload: GraphQLUpload },
 ])
 const server = new ApolloServer({
