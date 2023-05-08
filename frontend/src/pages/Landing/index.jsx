@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import HomeIcon from '@mui/icons-material/Home';
 
 function Copyright(props) {
     return (
@@ -93,6 +95,7 @@ function PricingContent() {
         <React.Fragment>
             <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
             <CssBaseline />
+    
             
             {/* Hero unit */}
             <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
@@ -144,6 +147,7 @@ function PricingContent() {
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'baseline',
+                                            color: "#0F2461",
                                             mb: 2,
                                         }}
                                     >

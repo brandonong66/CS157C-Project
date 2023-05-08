@@ -68,7 +68,7 @@ export default function SignIn() {
         formSubmitted: true,
         loggedIn: true,
       }))
-      window.location.assign("/")
+      window.location.assign("/home")
     }
     if (error) {
       console.log("Error: ", error)
