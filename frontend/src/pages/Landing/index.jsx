@@ -45,7 +45,6 @@ const tiers = [
     },
     {
         title: 'Pro',
-        subheader: 'Most popular',
         price: '15',
         description: [
             'Unlimited number of profiles',
@@ -95,8 +94,8 @@ function PricingContent() {
         <React.Fragment>
             <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
             <CssBaseline />
-    
-            
+
+
             {/* Hero unit */}
             <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
                 <Typography
@@ -109,7 +108,7 @@ function PricingContent() {
                     SearchEasy
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" component="p">
-                    A seamless job search experience designed just like how you like it. 
+                    A seamless job search experience designed just like how you like it.
                     Customize it per your interests and search away.
                 </Typography>
             </Container>
@@ -135,10 +134,8 @@ function PricingContent() {
                                         align: 'center',
                                     }}
                                     sx={{
-                                        backgroundColor: (theme) =>
-                                            theme.palette.mode === 'light'
-                                                ? theme.palette.grey[200]
-                                                : theme.palette.grey[700],
+                                        backgroundColor: ('#0F2461'),
+                                        color: 'white'
                                     }}
                                 />
                                 <CardContent>
@@ -172,7 +169,7 @@ function PricingContent() {
                                     </ul>
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant={tier.buttonVariant} onClick={signup}>
+                                    <Button fullWidth variant={tier.buttonVariant} onClick={signup} style={{ backgroundColor: '#0F2461', color: 'white' }}>
                                         {tier.buttonText}
                                     </Button>
                                 </CardActions>

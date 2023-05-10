@@ -13,6 +13,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import GradingIcon from '@mui/icons-material/Grading';
 
 export const mainListItems = (
   <React.Fragment>
@@ -22,17 +23,28 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
+
     <ListItemButton component={Link} to="/profile">
       <ListItemIcon>
         <PersonOutlineIcon />
       </ListItemIcon>
       <ListItemText primary="Profile" />
     </ListItemButton>
+
     <ListItemButton component={Link} to="/jobs">
       <ListItemIcon>
         <WorkOutlineIcon />
       </ListItemIcon>
       <ListItemText primary="Jobs" />
     </ListItemButton>
+
+    <ListItemButton component={Link} to="/reviews">
+      <ListItemIcon>
+        <GradingIcon />
+      </ListItemIcon>
+      <ListItemText primary="Reviews" />
+    </ListItemButton>
+
+
   </React.Fragment>
 );

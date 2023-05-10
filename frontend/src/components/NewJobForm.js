@@ -58,7 +58,7 @@ function NewJobForm() {
   return (
     <Box sx={{ mt: 3 }}>
       <Typography component="h1" variant="h5">
-        New Job
+        Add a New Job
       </Typography>
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
