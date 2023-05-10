@@ -25,14 +25,32 @@ const GET_AUTHENTICATEDUSER = gql`
     }
   }
 `
-
+const GET_JOBS = gql`
+  query GetJobs {
+    getJobs {
+      title
+      company
+      position
+      location
+      description
+    }
+  }
+`
 export default function Jobs() {
   const {
-    data: queryData,
-    loading: queryLoading,
-    error: queryError,
+    data: getAuthenticatedUserData,
+    loading: getAuthenticatedUserLoading,
+    error: getAuthenticatedUserError,
     refetch: getAuthenticatedUser,
   } = useQuery(GET_AUTHENTICATEDUSER)
+
+  const {
+    data: getJobsData,
+    loading: getJobsLoading,
+    error: getJobsError,
+    refetch: getJobs,
+  } = useQuery(GET_JOBS)
+
   const [userInfo, setUserInfo] = useState({})
   const testProfile = {
     name: "John Smith",
@@ -40,56 +58,24 @@ export default function Jobs() {
     visa: "F1 - Requires H1B sponsoring",
   }
 
-  const testJobs = [
-    {
-      id: 1,
-      company: "Company 1",
-      position: "Software Engineer",
-      location: "Remote",
-    },
-    {
-      id: 2,
-      company: "Company 2",
-      position: "Software Engineer",
-      location: "San Jose, CA",
-    },
-    {
-      id: 3,
-      company: "Company 2",
-      position: "Software Engineer",
-      location: "San Jose, CA",
-    },
-    {
-      id: 4,
-      company: "Company 2",
-      position: "Software Engineer",
-      location: "San Jose, CA",
-    },
-    {
-      id: 5,
-      company: "Company 2",
-      position: "Software Engineer",
-      location: "San Jose, CA",
-    },
-  ]
-
   // triggers only on first render
   useEffect(() => {
     getAuthenticatedUser()
+    getJobs()
   }, [])
 
-  // triggers when queryData changes
+  // triggers when getAuthenticatedUserData changes
   useEffect(() => {
-    if (queryData?.getAuthenticatedUser) {
+    if (getAuthenticatedUserData?.getAuthenticatedUser) {
       setUserInfo({
-        userId: queryData.getAuthenticatedUser.userId,
-        accountType: queryData.getAuthenticatedUser.accountType,
+        userId: getAuthenticatedUserData.getAuthenticatedUser.userId,
+        accountType: getAuthenticatedUserData.getAuthenticatedUser.accountType,
       })
     }
-  }, [queryData])
+  }, [getAuthenticatedUserData])
 
   function jobList() {
-    return <JobList jobs={testJobs} />
+    return <JobList jobs={getJobsData?.getJobs} />
   }
 
   return (
@@ -106,7 +92,9 @@ export default function Jobs() {
         }}
       >
         {userInfo?.accountType === "applicant" && (
-          <CurrentProfile user={queryData?.getAuthenticatedUser} />
+          <CurrentProfile
+            user={getAuthenticatedUserData?.getAuthenticatedUser}
+          />
         )}
         {userInfo?.accountType === "employer" && <NewJobForm />}
       </Box>
@@ -116,7 +104,7 @@ export default function Jobs() {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <Typography variant="h6">Search Results</Typography>
-        {jobList()}
+        {getJobsData && jobList()}
       </Box>
       <Navbar />
     </Box>

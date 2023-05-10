@@ -10,6 +10,7 @@ type Job {
 
 type Query {
   getJob(jobId: ID!): Job!
+  getJobs: [Job!]!
 }
 
 type Mutation {

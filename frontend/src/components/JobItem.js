@@ -11,27 +11,27 @@ export default function JobItem({job}) {
     const handleApply = () => {
         if (!isClicked) setIsClicked(true);
         setButtonText('Applied');
-        console.log(job.id)
+        console.log(job?.id)
     };
 
     return (
         <ListItem>
             <ListItemText
-                primary={job.company}
+                primary={job?.company}
                 secondary={
                     <React.Fragment>
                         <Typography
                             variant='body1'
                             component="span"
                         >
-                            {job.position}
+                            {job?.position}
                         </Typography>
                         <Typography
                             variant='body1'
                             component="span"
                             display="block"
                         >
-                            {job.location}
+                            {job?.location}
                         </Typography>
                     </React.Fragment>
                 }

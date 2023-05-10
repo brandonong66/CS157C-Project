@@ -14,6 +14,14 @@ const jobResolver = {
       }
       return result.records[0].get("j").properties
     },
+    getJobs: async (_, __, { driver }) => {
+      const session = driver.session()
+      const result = await session.run("MATCH (j:Job) RETURN j")
+      session.close()
+      return result.records.map((record) => {
+        return record.get("j").properties
+      })
+    }
   },
   Mutation: {
     createJob: async (

@@ -16,9 +16,9 @@ const { GraphQLUpload } = require("graphql-upload")
 //   neo4j.auth.basic("neo4j", "password")
 // )
 const driver = neo4j.driver(
-  // process.env.AURA_URI,
-  "bolt://127.0.0.1:7687",
-  neo4j.auth.basic(process.env.USERNAME, process.env.PASSWORD2)
+  process.env.AURA_URI,
+  // "bolt://127.0.0.1:7687",
+  neo4j.auth.basic(process.env.USERNAME, process.env.PASSWORD)
 )
 
 const userTypeDefs = gql(
@@ -42,7 +42,7 @@ const server = new ApolloServer({
   cors: {
     origin: [
       "https://studio.apollographql.com",
-      "http://localhost:3000",
+      "http://localhost:3002",
       "http://localhost:4000/",
     ],
     credentials: true,

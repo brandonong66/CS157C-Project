@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
 import Navbar2 from "./components/Navbar2"
 import Jobs from "./pages/Jobs"
+import Job from "./pages/Job"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path='/job/:jobId' element= {<Job />} />
         </Routes>
       </Router>
     </div>

@@ -1,13 +1,11 @@
-import * as React from 'react';
-import Link from '@mui/material/Link';
-import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Deposits from './deposits';
+import * as React from "react"
+import Link from "@mui/material/Link"
+import { Card, CardContent, Typography, makeStyles } from "@mui/material"
+import Grid from "@mui/material/Grid"
+import Paper from "@mui/material/Paper"
+import Deposits from "./deposits"
 
-import Title from './title';
+import Title from "./title"
 
-const ExampleCard = () => {
-
-};
-export default ExampleCard;
+const ExampleCard = () => {}
+export default ExampleCard
