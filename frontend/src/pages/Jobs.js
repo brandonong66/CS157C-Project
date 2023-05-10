@@ -28,10 +28,12 @@ const GET_AUTHENTICATEDUSER = gql`
 const GET_JOBS = gql`
   query GetJobs {
     getJobs {
+      jobId
       title
       company
       position
       location
+      salary
       description
     }
   }
