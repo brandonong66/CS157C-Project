@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
-import Navbar from "../components/Navbar"
+import NewNavbar from "../components/newVerticalNav"
 import CurrentProfile from "../components/CurrentProfile"
 import AuthWrapper from "../components/AuthWrapper"
 
@@ -135,6 +135,7 @@ function Profile() {
         flexDirection: "column",
       }}
     >
+      
       <Typography variant="h4">Profile</Typography>
       <CurrentProfile user={queryData?.getAuthenticatedUser} />
       <Box
@@ -147,7 +148,6 @@ function Profile() {
         }}
       >
         <Typography variant="h6">Edit Profile:</Typography>
-
         <Container component="main" maxWidth="xs">
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
@@ -227,7 +227,7 @@ function Profile() {
             </Button>
           </Box>
         </Container>
-        <Navbar />
+        
       </Box>
     </Box>
   )

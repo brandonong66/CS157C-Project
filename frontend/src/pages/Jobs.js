@@ -105,6 +105,7 @@ export default function Jobs() {
           flexDirection: "column",
         }}
       >
+         <Typography variant="h4">Jobs</Typography>
         {userInfo?.accountType === "applicant" && (
           <CurrentProfile user={queryData?.getAuthenticatedUser} />
         )}
@@ -118,7 +119,6 @@ export default function Jobs() {
         <Typography variant="h6">Search Results</Typography>
         {jobList()}
       </Box>
-      <Navbar />
     </Box>
   )
 }
