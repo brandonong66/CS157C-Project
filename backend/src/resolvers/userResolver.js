@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
+
 require("dotenv").config()
 const { calculateRoleScores } = require("../utilities/scoreUtil")
 const cosineSimilarity = require("../utilities/cosineSimilarity")
@@ -69,14 +71,14 @@ const userResolver = {
       if (checkEmail.records.length !== 0) {
         return null
       }
-
+      let hashedPassword = await bcrypt.hash(password, 10)
       const result = await session.run(
-        "CREATE (u:User { userId: randomUUID(), firstName: $firstName, lastName: $lastName, email: $email, password: $password, accountType: $accountType}) RETURN u",
+        "CREATE (u:User { userId: randomUUID(), firstName: $firstName, lastName: $lastName, email: $email, password: $hashedPassword, accountType: $accountType}) RETURN u",
         {
           firstName,
           lastName,
           email,
-          password,
+          hashedPassword,
           accountType,
         }
       )
@@ -85,31 +87,37 @@ const userResolver = {
     },
     login: async (_, { email, password }, { driver }) => {
       const session = driver.session()
-      const result = await session.run(
-        "MATCH (u:User {email: $email, password: $password}) RETURN u",
+
+      const userResult = await session.run(
+        "MATCH (u:User {email: $email}) RETURN u",
         {
           email,
-          password,
         }
       )
       session.close()
-      if (result.records.length === 0) {
+      const hashedPassword = userResult.records[0].get("u").properties.password
+      const match = await bcrypt.compare(password, hashedPassword)
+
+      if (!match) {
         return "bad login"
-      }
-      const token = jwt.sign(
-        {
-          userId: result.records[0].get("u").properties.userId,
-          email: result.records[0].get("u").properties.email,
-          accountType: result.records[0].get("u").properties.accountType,
-        },
-        process.env.JSONWEBTOKEN_SECRET,
-        {
-          expiresIn: "1h",
+      } else if (match) {
+        const token = jwt.sign(
+          {
+            userId: userResult.records[0].get("u").properties.userId,
+            email: userResult.records[0].get("u").properties.email,
+            accountType: userResult.records[0].get("u").properties.accountType,
+          },
+          process.env.JSONWEBTOKEN_SECRET,
+          {
+            expiresIn: "1h",
+          }
+        )
+        return {
+          token: token,
+          user: userResult.records[0].get("u").properties,
         }
-      )
-      return {
-        token: token,
-        user: result.records[0].get("u").properties,
+      } else {
+        return "incorrect password"
       }
     },
     editProfile: async (
