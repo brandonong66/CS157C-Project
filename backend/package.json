@@ -15,6 +15,7 @@
     "@neo4j/graphql-ogm": "^3.17.2",
     "apollo-server": "^3.12.0",
     "apollo-server-express": "^3.12.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
     "graphql-type-json": "^0.3.2",

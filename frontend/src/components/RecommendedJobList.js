@@ -2,12 +2,13 @@ import * as React from "react"
 import JobItem from "./JobItem"
 import { Grid } from "@mui/material"
 
-export default function JobList({ jobs }) {
-  const jobItems = jobs?.map((job) => (
+export default function RecommendedJobList({ jobs }) {
+  const jobItems = jobs?.map((jobResult) => (
     <Grid item sx={{ width: "500px", margin: "0.5em" }}>
       <JobItem
-        key={job?.jobId}
-        job={job}
+        key={jobResult?.job.jobId}
+        job={jobResult.job}
+        weightedScore={jobResult.weightedScore}
         sx={{
           width: "100%",
           minWidth: 380,

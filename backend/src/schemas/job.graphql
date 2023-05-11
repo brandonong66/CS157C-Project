@@ -7,13 +7,23 @@ type Job {
   location: String!
   description: String!
 }
+type RecommendedJob {
+  job: Job!
+  similarityScore: Float!
+  weightedScore: Float!
+}
 
 type Query {
   getJob(jobId: ID!): Job!
+  getJobs: [Job!]!
+  getAllJobsByUser(userId: ID!): [Job!]!
+  verifyJobApplication(jobId: ID!, userId: ID!): Boolean!
+  getRecommendedJobs(userId: ID!): [RecommendedJob]
 }
 
 type Mutation {
   createJob(
+    userId: ID!
     title: String!
     company: String!
     position: String!
@@ -21,4 +31,5 @@ type Mutation {
     location: String!
     description: String!
   ): Job!
+  applyToJob(jobId: ID!, userId: ID!): Boolean!
 }

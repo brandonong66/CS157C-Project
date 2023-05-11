@@ -1,10 +1,13 @@
 import React from "react"
+import { useState, useEffect } from "react"
 import { Box, Button, Grid, TextField, Typography } from "@mui/material"
 
 import { useMutation, gql } from "@apollo/client"
+import jwt_decode from "jwt-decode"
 
 const CREATE_JOB = gql`
   mutation CreateJob(
+    $userId: ID!
     $title: String!
     $company: String!
     $position: String!
@@ -13,6 +16,7 @@ const CREATE_JOB = gql`
     $description: String!
   ) {
     createJob(
+      userId: $userId
       title: $title
       company: $company
       position: $position
@@ -32,11 +36,18 @@ const CREATE_JOB = gql`
 
 function NewJobForm() {
   const [createJob, { data, loading, error }] = useMutation(CREATE_JOB)
+  const [userId, setUserId] = useState()
+  useEffect(() => {
+    const token = sessionStorage.getItem("token")
+    const { userId } = jwt_decode(token)
+    setUserId(userId)
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     console.log({
+      userId: userId,
       title: formData.get("title"),
       company: formData.get("company"),
       position: formData.get("position"),
@@ -46,6 +57,7 @@ function NewJobForm() {
     })
     createJob({
       variables: {
+        userId: userId,
         title: formData.get("title"),
         company: formData.get("company"),
         position: formData.get("position"),
@@ -53,6 +65,8 @@ function NewJobForm() {
         location: formData.get("location"),
         description: formData.get("description"),
       },
+    }).then(()=>{
+      window.location.reload()
     })
   }
   return (

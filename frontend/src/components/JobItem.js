@@ -1,48 +1,36 @@
-import * as React from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import * as React from "react"
+import { Card, CardContent, Link, Typography } from "@mui/material"
 
-export default function JobItem({job}) {
-    const [isClicked, setIsClicked] = React.useState(false);
-    const [buttonText, setButtonText] = React.useState('Apply');
+export default function JobItem({ job, similarityScore, weightedScore }) {
+  const [isClicked, setIsClicked] = React.useState(false)
+  const [buttonText, setButtonText] = React.useState("Apply")
 
-    const handleApply = () => {
-        if (!isClicked) setIsClicked(true);
-        setButtonText('Applied');
-        console.log(job.id)
-    };
-
-    return (
-        <ListItem>
-            <ListItemText
-                primary={job.company}
-                secondary={
-                    <React.Fragment>
-                        <Typography
-                            variant='body1'
-                            component="span"
-                        >
-                            {job.position}
-                        </Typography>
-                        <Typography
-                            variant='body1'
-                            component="span"
-                            display="block"
-                        >
-                            {job.location}
-                        </Typography>
-                    </React.Fragment>
-                }
-            />
-            <Button
-                variant='outlined'
-                disabled={isClicked}
-                onClick={handleApply}
-            >
-                {buttonText}
-            </Button>
-        </ListItem>
-    );
+  const handleApply = () => {
+    if (!isClicked) setIsClicked(true)
+    setButtonText("Applied")
+    console.log(job?.id)
+  }
+  return (
+    <Card>
+      <CardContent>
+        <Link href={"/job/" + job?.jobId} color="inherit" underline="none">
+          <Typography variant="h5">{job?.company}</Typography>
+          <Typography variant="body1" component="span">
+            {job?.position}
+          </Typography>
+          <Typography variant="body1" component="span" display="block">
+            {job?.salary}
+          </Typography>
+          <Typography variant="body1" component="span" display="block">
+            {job?.location}
+          </Typography>
+          {weightedScore && (
+            <Typography variant="body1" component="span" display="block">
+              Score: {(weightedScore*10).toFixed(2)}
+            </Typography>
+          )}
+        </Link>
+      </CardContent>
+    </Card>
+  )
 }
