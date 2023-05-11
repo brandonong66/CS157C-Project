@@ -9,7 +9,7 @@ import ApplicantView from "./ApplicantView"
 
 function index() {
   return (
-    <Container>
+    <Container sx={{ marginTop: "5rem" }}>
       <EmployerAuthWrapper>
         <EmployerView />
       </EmployerAuthWrapper>

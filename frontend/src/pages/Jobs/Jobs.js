@@ -1,6 +1,5 @@
 import * as React from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import { Box, Container, Typography } from "@mui/material"
 import CurrentProfile from "../../components/CurrentProfile"
 import JobList from "../../components/JobList"
 import Navbar from "../../components/Navbar"
@@ -80,33 +79,15 @@ export default function Jobs() {
   }
 
   return (
-    <Box component="main">
-      <Box
-        component="div"
-        sx={{
-          flexGrow: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "10px",
-          flexDirection: "column",
-        }}
-      >
-         <Typography variant="h4">Jobs</Typography>
-        {userInfo?.accountType === "applicant" && (
-          <CurrentProfile
-            user={getAuthenticatedUserData?.getAuthenticatedUser}
-          />
-        )}
-      </Box>
+    <Container sx={{ marginTop: "5rem" }}>
+      <Typography variant="h4">Jobs</Typography>
 
       <Box
         component="div"
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Typography variant="h6">Search Results</Typography>
         {getJobsData && jobList()}
       </Box>
-    </Box>
+    </Container>
   )
 }

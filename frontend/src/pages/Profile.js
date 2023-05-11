@@ -124,112 +124,112 @@ function Profile() {
   }
 
   return (
-    <Box
-      component="div"
-      sx={{
-        flexGrow: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px",
-        flexDirection: "column",
-      }}
-    >
-      
-      <Typography variant="h4">Profile</Typography>
-      <CurrentProfile user={queryData?.getAuthenticatedUser} />
+    <Container sx={{ marginTop: 8 }}>
       <Box
         component="div"
         sx={{
+          flexGrow: 1,
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          marginTop: "10px",
+          padding: "10px",
+          flexDirection: "column",
         }}
       >
-        <Typography variant="h6">Edit Profile:</Typography>
-        <Container component="main" maxWidth="xs">
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="educationalbg"
-              label="Educational Background"
-              name="educationalBackground"
-              autoComplete="educationalbg"
-              autoFocus
-              value={userProfile?.educationalBackground || ""}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="universityName"
-              label="University Name"
-              id="university"
-              autoComplete="university"
-              value={userProfile?.universityName || ""}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="fieldOfStudy"
-              label="Field of Study"
-              id="study"
-              autoComplete="study"
-              value={userProfile?.fieldOfStudy || ""}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="desiredPosition"
-              label="Desired Position"
-              id="position"
-              autoComplete="positiion"
-              value={userProfile?.desiredPosition || ""}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="visaStatus"
-              label="Visa Status"
-              id="visa"
-              autoComplete="visa"
-              value={userProfile?.visaStatus || ""}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="resume"
-              label="resume"
-              id="resume"
-              autoComplete="resume"
-              value={userProfile?.resume || ""}
-              onChange={handleChange}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Update
-            </Button>
-          </Box>
-        </Container>
-        
+        <Typography variant="h4">Profile</Typography>
+        <CurrentProfile user={queryData?.getAuthenticatedUser} />
+        <Box
+          component="div"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "10px",
+          }}
+        >
+          <Typography variant="h6">Edit Profile:</Typography>
+          <Container component="main" maxWidth="xs">
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="educationalbg"
+                label="Educational Background"
+                name="educationalBackground"
+                autoComplete="educationalbg"
+                autoFocus
+                value={userProfile?.educationalBackground || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="universityName"
+                label="University Name"
+                id="university"
+                autoComplete="university"
+                value={userProfile?.universityName || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="fieldOfStudy"
+                label="Field of Study"
+                id="study"
+                autoComplete="study"
+                value={userProfile?.fieldOfStudy || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="desiredPosition"
+                label="Desired Position"
+                id="position"
+                autoComplete="positiion"
+                value={userProfile?.desiredPosition || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="visaStatus"
+                label="Visa Status"
+                id="visa"
+                autoComplete="visa"
+                value={userProfile?.visaStatus || ""}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="resume"
+                label="resume"
+                id="resume"
+                autoComplete="resume"
+                value={userProfile?.resume || ""}
+                onChange={handleChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Update
+              </Button>
+            </Box>
+          </Container>
+        </Box>
       </Box>
-    </Box>
+    </Container>
   )
 }
 

@@ -36,11 +36,11 @@ function EmployerView() {
     setUserId(userId)
   }, [])
   return (
-    <Container>
+    <Container sx={{ marginTop: 5 }}>
       <Card sx={{ m: 5, p: 5 }}>
         <NewJobForm />
       </Card>
-      <Typography variant="h5">My Posted Jobs</Typography>
+      <Typography variant="h4">My Posted Jobs</Typography>
       <JobList jobs={getAllJobsByUserData?.getAllJobsByUser} />
     </Container>
   )

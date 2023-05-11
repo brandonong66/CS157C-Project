@@ -84,7 +84,7 @@ function Job() {
   }, [jobId, userId])
 
   return (
-    <div>
+    <Container sx={{ marginTop: "5rem" }}>
       {getJobData && (
         <Container maxWidth="lg">
           <Card sx={{ m: 5, p: 5 }}>
@@ -133,7 +133,7 @@ function Job() {
         </Container>
       )}
       {!getJobData && <Typography variant="h2">Loading...</Typography>}
-    </div>
+    </Container>
   )
 }
 

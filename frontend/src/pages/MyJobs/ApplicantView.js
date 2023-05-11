@@ -39,7 +39,7 @@ function ApplicantView() {
   return (
     <Container sx={{ mt: 5 }}>
       <div>
-        <Typography variant="h5">My Applied Jobs</Typography>
+        <Typography variant="h4">My Applied Jobs</Typography>
         <JobList jobs={getAllJobsByUserData?.getAllJobsByUser} />
       </div>
     </Container>

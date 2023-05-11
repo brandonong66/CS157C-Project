@@ -10,12 +10,13 @@ import Navbar2 from "./components/Navbar2"
 import Jobs from "./pages/Jobs/Jobs"
 import Job from "./pages/Job"
 import MyJobs from "./pages/MyJobs"
+import Navbar3 from "./components/Navbar3"
 
 function App() {
   return (
-    <div className="App">
-      <Navbar2 />
-      <Router>
+    <Router>
+      <div className="App">
+        <Navbar3 />
         <Routes>
           <Route exact path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
@@ -26,8 +27,8 @@ function App() {
           <Route path="/job/:jobId" element={<Job />} />
           <Route path="/myjobs" element={<MyJobs />} />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   )
 }
 
