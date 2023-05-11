@@ -1,10 +1,9 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
-import CurrentProfile from "../components/CurrentProfile"
-import JobList from "../components/JobList"
-import Navbar from "../components/Navbar"
-import NewJobForm from "../components/NewJobForm"
+import CurrentProfile from "../../components/CurrentProfile"
+import JobList from "../../components/JobList"
+import Navbar from "../../components/Navbar"
 import { useEffect, useState } from "react"
 import { useQuery, useMutation, gql } from "@apollo/client"
 
@@ -98,7 +97,6 @@ export default function Jobs() {
             user={getAuthenticatedUserData?.getAuthenticatedUser}
           />
         )}
-        {userInfo?.accountType === "employer" && <NewJobForm />}
       </Box>
 
       <Box

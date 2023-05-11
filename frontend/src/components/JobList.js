@@ -1,23 +1,27 @@
 import * as React from "react"
 import JobItem from "./JobItem"
-import { List, Paper } from "@mui/material"
+import { Grid } from "@mui/material"
 
 export default function JobList({ jobs }) {
-  const jobItems = jobs.map((job) => <JobItem key={job?.jobId} job={job} />)
+  const jobItems = jobs?.map((job) => (
+    <Grid item sx={{ width: "500px", margin: "0.5em" }}>
+      <JobItem
+        key={job?.jobId}
+        job={job}
+        sx={{
+          width: "100%",
+          minWidth: 380,
+          maxHeight: "450px",
+          overflow: "auto",
+        }}
+      />
+    </Grid>
+  ))
   return (
     <div>
-      <Paper>
-        <List
-          sx={{
-            width: "100%",
-            minWidth: 380,
-            maxHeight: "450px",
-            overflow: "auto",
-          }}
-        >
-          {jobItems}
-        </List>
-      </Paper>
+      <Grid container sx={{ justifyContent: "center" }}>
+        {jobItems}
+      </Grid>
     </div>
   )
 }

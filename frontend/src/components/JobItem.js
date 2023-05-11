@@ -1,5 +1,10 @@
 import * as React from "react"
-import { Button, Link, ListItem, ListItemText, Typography } from "@mui/material"
+import {
+  Card,
+  CardContent,
+  Link,
+  Typography,
+} from "@mui/material"
 
 export default function JobItem({ job }) {
   const [isClicked, setIsClicked] = React.useState(false)
@@ -11,29 +16,21 @@ export default function JobItem({ job }) {
     console.log(job?.id)
   }
   return (
-    <ListItem>
-      <ListItemText
-        primary={
-          <Link href={"/job/" + job?.jobId} color="inherit">
-            {job?.company}
-          </Link>
-        }
-        secondary={
-          <React.Fragment>
-            <Typography variant="body1" component="span">
-              {job?.position}
-            </Typography>
-            <Typography variant="body1" component="span" display="block">
-              {job?.salary}
-            </Typography>
-            <Typography variant="body1" component="span" display="block">
-              {job?.location}
-            </Typography>
-          </React.Fragment>
-        }
-      />
-
-      <Button variant="outlined">Apply</Button>
-    </ListItem>
+    <Card>
+      <CardContent>
+        <Link href={"/job/" + job?.jobId} color="inherit" underline="none">
+          <Typography variant="h5">{job?.company}</Typography>
+          <Typography variant="body1" component="span">
+            {job?.position}
+          </Typography>
+          <Typography variant="body1" component="span" display="block">
+            {job?.salary}
+          </Typography>
+          <Typography variant="body1" component="span" display="block">
+            {job?.location}
+          </Typography>
+        </Link>
+      </CardContent>
+    </Card>
   )
 }

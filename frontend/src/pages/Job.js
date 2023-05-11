@@ -1,8 +1,16 @@
-import React from "react"
+import { React, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { useQuery, gql } from "@apollo/client"
-import { useEffect } from "react"
-import { Box, Container, Card, CardContent, Typography } from "@mui/material"
+import { useQuery, useMutation, gql } from "@apollo/client"
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  Divider,
+  Typography,
+  Button,
+} from "@mui/material"
+import jwt_decode from "jwt-decode"
 
 const GET_JOB = gql`
   query GetJob($jobId: ID!) {
@@ -16,8 +24,22 @@ const GET_JOB = gql`
     }
   }
 `
+const APPLY_TO_JOB = gql`
+  mutation ApplyToJob($jobId: ID!, $userId: ID!) {
+    applyToJob(jobId: $jobId, userId: $userId)
+  }
+`
+const VERIFY_JOB_APPLICATION = gql`
+  query VerifyJobApplication($jobId: ID!, $userId: ID!) {
+    verifyJobApplication(jobId: $jobId, userId: $userId)
+  }
+`
 
 function Job() {
+  const [accountType, setAccountType] = useState()
+  const [userId, setUserId] = useState()
+  const [applied, setApplied] = useState(false)
+
   const { jobId } = useParams()
   const {
     data: getJobData,
@@ -27,10 +49,39 @@ function Job() {
   } = useQuery(GET_JOB, {
     variables: { jobId },
   })
+  const [
+    applyToJob,
+    {
+      data: applyToJobData,
+      loading: applyToJobLoading,
+      error: applyToJobError,
+    },
+  ] = useMutation(APPLY_TO_JOB, {
+    variables: { jobId, userId },
+  })
+
+  const {
+    data: verifyJobApplicationData,
+    loading: verifyJobApplicationLoading,
+    error: verifyJobApplicationError,
+    refetch: verifyJobApplication,
+  } = useQuery(VERIFY_JOB_APPLICATION, {
+    variables: { jobId, userId },
+  })
 
   useEffect(() => {
     getJob(jobId)
+    const token = sessionStorage.getItem("token")
+    const { accountType, userId } = jwt_decode(token)
+    setAccountType(accountType)
+    setUserId(userId)
   }, [])
+
+  useEffect(() => {
+    verifyJobApplication(jobId, userId).then((res) => {
+      setApplied(res.data.verifyJobApplication)
+    })
+  }, [jobId, userId])
 
   return (
     <div>
@@ -49,11 +100,35 @@ function Job() {
                 <Typography variant="h5">
                   Salary: {getJobData?.getJob.salary}
                 </Typography>
+                <Divider variant="middle" sx={{ m: 3 }} />
                 <Typography variant="p" sx={{ whiteSpace: "pre-wrap" }}>
                   {getJobData?.getJob.description}
                 </Typography>
               </Box>
             </CardContent>
+            {accountType === "applicant" &&
+              (applied ? (
+                <Button variant="outlined" color="primary" disabled>
+                  Applied
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    applyToJob(jobId, userId).then(() => {
+                      window.location.reload()
+                    })
+                  }}
+                >
+                  Apply
+                </Button>
+              ))}
+            {accountType === "employer" && (
+              <Button variant="outlined" color="primary">
+                Edit
+              </Button>
+            )}
           </Card>
         </Container>
       )}

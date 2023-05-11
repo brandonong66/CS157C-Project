@@ -11,10 +11,13 @@ type Job {
 type Query {
   getJob(jobId: ID!): Job!
   getJobs: [Job!]!
+  getAllJobsByUser(userId: ID!): [Job!]!
+  verifyJobApplication(jobId: ID!, userId: ID!): Boolean!
 }
 
 type Mutation {
   createJob(
+    userId: ID!
     title: String!
     company: String!
     position: String!
@@ -22,4 +25,5 @@ type Mutation {
     location: String!
     description: String!
   ): Job!
+  applyToJob(jobId: ID!, userId: ID!): Boolean!
 }
