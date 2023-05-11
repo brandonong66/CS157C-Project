@@ -65,6 +65,8 @@ function NewJobForm() {
         location: formData.get("location"),
         description: formData.get("description"),
       },
+    }).then(()=>{
+      window.location.reload()
     })
   }
   return (

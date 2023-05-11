@@ -33,7 +33,7 @@ const jobResolver = {
       if (userType === "applicant") {
         // step 2: get all jobs applied by user
         const result = await session.run(
-          "MATCH (u:User {userId: $userId})-[:Applied]->(j:Job) RETURN j",
+          "MATCH (u:User {userId: $userId})-[r:Applied]->(j:Job) RETURN j ORDER BY r.appliedDate DESC",
           { userId }
         )
 
@@ -43,7 +43,7 @@ const jobResolver = {
       } else if (userType === "employer") {
         // step 2: get all jobs posted by user
         const result = await session.run(
-          "MATCH (u:User {userId: $userId})-[:Posted]->(j:Job) RETURN j",
+          "MATCH (u:User {userId: $userId})-[r:Posted]->(j:Job) RETURN j ORDER BY r.postedDate DESC",
           { userId }
         )
 
@@ -72,7 +72,9 @@ const jobResolver = {
     ) => {
       const session = driver.session()
       const result = await session.run(
-        "MATCH (u:User {userId:$userId}) CREATE (j:Job { jobId: randomUUID(), title: $title, company: $company, position: $position, salary: $salary, location: $location, description: $description}), (u)-[:Posted]->(j) RETURN j",
+        `MATCH (u:User {userId:$userId}) 
+        CREATE (j:Job { jobId: randomUUID(), title: $title, company: $company, position: $position, salary: $salary, location: $location, description: $description}),
+        (u)-[:Posted {postedDate:datetime({epochmillis:timestamp()})}]->(j) RETURN j`,
         { userId, title, company, position, salary, location, description }
       )
       session.close()
@@ -93,7 +95,8 @@ const jobResolver = {
 
       // if not, create relationship
       const resultCreate = await session.run(
-        `MATCH (u:User {userId: $userId}), (j:Job {jobId: $jobId}) CREATE (u)-[:Applied]->(j) RETURN j`,
+        `MATCH (u:User {userId: $userId}), (j:Job {jobId: $jobId}) 
+        CREATE (u)-[:Applied {appliedDate:datetime({epochmillis:timestamp()})}]->(j) RETURN j`,
         { userId, jobId }
       )
 

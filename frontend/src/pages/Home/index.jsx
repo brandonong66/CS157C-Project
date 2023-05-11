@@ -24,7 +24,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications"
 import { mainListItems } from "./listItems"
 import Chart from "./chart"
 import Deposits from "./deposits"
-import Orders from "./orders"
+import Jobs from "./jobs"
 
 function Copyright(props) {
   return (
@@ -202,7 +202,7 @@ function DashboardContent() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Orders />
+                  <Jobs />
                 </Paper>
               </Grid>
             </Grid>
