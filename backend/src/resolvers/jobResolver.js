@@ -1,3 +1,6 @@
+const { calculateRoleScores } = require("../utilities/scoreUtil")
+const cosineSimilarity = require("../utilities/cosineSimilarity")
+
 const jobResolver = {
   Query: {
     getJob: async (_, { jobId }, { driver }) => {
@@ -70,12 +73,26 @@ const jobResolver = {
       { userId, title, company, position, salary, location, description },
       { driver }
     ) => {
+      // calculate role score for job
+      const jobString = "" + title + position + description
+      const roleScores = calculateRoleScores(jobString)
+      const roleScoresJSON = JSON.stringify(roleScores)
+
       const session = driver.session()
       const result = await session.run(
         `MATCH (u:User {userId:$userId}) 
-        CREATE (j:Job { jobId: randomUUID(), title: $title, company: $company, position: $position, salary: $salary, location: $location, description: $description}),
+        CREATE (j:Job { jobId: randomUUID(), title: $title, company: $company, position: $position, salary: $salary, location: $location, description: $description, roleScores: $roleScoresJSON}),
         (u)-[:Posted {postedDate:datetime({epochmillis:timestamp()})}]->(j) RETURN j`,
-        { userId, title, company, position, salary, location, description }
+        {
+          userId,
+          title,
+          company,
+          position,
+          salary,
+          location,
+          description,
+          roleScoresJSON,
+        }
       )
       session.close()
       return result.records[0].get("j").properties
