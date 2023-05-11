@@ -1,12 +1,7 @@
 import * as React from "react"
-import {
-  Card,
-  CardContent,
-  Link,
-  Typography,
-} from "@mui/material"
+import { Card, CardContent, Link, Typography } from "@mui/material"
 
-export default function JobItem({ job }) {
+export default function JobItem({ job, similarityScore, weightedScore }) {
   const [isClicked, setIsClicked] = React.useState(false)
   const [buttonText, setButtonText] = React.useState("Apply")
 
@@ -29,6 +24,11 @@ export default function JobItem({ job }) {
           <Typography variant="body1" component="span" display="block">
             {job?.location}
           </Typography>
+          {weightedScore && (
+            <Typography variant="body1" component="span" display="block">
+              Score: {(weightedScore*10).toFixed(2)}
+            </Typography>
+          )}
         </Link>
       </CardContent>
     </Card>

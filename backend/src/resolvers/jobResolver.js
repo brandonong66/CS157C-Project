@@ -66,6 +66,61 @@ const jobResolver = {
       )
       return result.records.length === 1
     },
+    getRecommendedJobs: async (_, { userId }, { driver }) => {
+      let jobsByScore = {}
+      const session = driver.session()
+      // step 1:get jobs with similar scores
+      const allJobsResult = await session.run(`MATCH (j:Job) return j`)
+      const allJobs = allJobsResult.records.map((record) => {
+        return record.get("j").properties
+      })
+      const userResult = await session.run(
+        `MATCH (u:User {userId: $userId}) return u.roleScores`,
+        { userId }
+      )
+      const userRoleScores = JSON.parse(
+        userResult.records[0].get("u.roleScores")
+      )
+      for (const job of allJobs) {
+        const jobRoleScores = JSON.parse(job.roleScores)
+        const similarityScore = cosineSimilarity(userRoleScores, jobRoleScores)
+        const threshold = 0.6
+        if (similarityScore > threshold) {
+          jobsByScore[job.jobId] = {
+            job,
+            similarityScore,
+            weightedScore: 0.7 * similarityScore,
+          }
+        }
+      }
+
+      // step 2: get jobsdd applied to by similar users
+      const similarUsersResult = await session.run(
+        `MATCH (u1:User {userId: $userId})-[r:SCORE_SIMILARITY]->(u2:User)-[r2:Applied]->(j:Job) return distinct j, r.similarity`,
+        { userId }
+      )
+
+      for (const record of similarUsersResult.records) {
+        const job = record.get("j").properties
+        const similarityScore = record.get("r.similarity")
+        const weightedScore = 0.7 * similarityScore + 0.3
+        if (job.jobId in jobsByScore) {
+          // If the job already exists, update the weightedScore if the new score is higher
+          jobsByScore[job.jobId].weightedScore = Math.max(
+            jobsByScore[job.jobId].weightedScore,
+            weightedScore
+          )
+        } else {
+          // If the job does not exist, add it to the list
+          jobsByScore[job.jobId] = { job, similarityScore, weightedScore }
+        }
+      }
+      // Convert jobsByScore object to array and sort by weightedScore
+      const recommendedJobs = Object.values(jobsByScore)
+      recommendedJobs.sort((a, b) => b.weightedScore - a.weightedScore)
+
+      return recommendedJobs
+    },
   },
   Mutation: {
     createJob: async (
